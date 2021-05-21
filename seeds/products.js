@@ -1,20 +1,16 @@
 const data = require('../data');
 
-const createProduct = (knex, product) => {
-  return knex('products').insert({
-    name: product.name,
-    ingredients: product.ingredients,
-    imageLink: product.imageLink,
-    containsMicroplastics: product.containsMicroplastics,
-    isbn: product.isbn,
-    link: product.link
-  }, 'id');
-}
-
 exports.seed = knex => {
   return knex('products').del()
   .then(() => {
-    data.forEach(product => createProduct(knex, product));
+    knex('products').insert({
+      name: data.name,
+      ingredients: data.ingredients,
+      imageLink: data.imageLink,
+      containsMicroplastics: data.containsMicroplastics,
+      isbn: data.isbn,
+      link: data.link
+    });
   })
-  .catch(error => console.log(`Error sending data: ${error}`));
+  .catch(error => console.log(`Error seeding data: ${error}`));
 }
